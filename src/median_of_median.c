@@ -13,6 +13,27 @@ void swap(int *p, int *q){
   *q = tmp;
 }
 
+int midian(int A[], int k){
+  int n = sizeof(A);
+  int tmp;
+  if(n <= 5){
+      for(int a = 0;a < n;a++){
+        for(int b = 0;b < n-a-1;b++){
+          if(A[b] >= A[b+1]){
+            tmp = A[b+1];
+            A[b+1] = A[b];
+            A[b] = tmp;
+          }
+        }
+      }
+      return A[k];
+    }
+
+  }else{
+  int A2[(n+4)/5];
+
+}}
+
 int quick_select(int A[], int n, int k){
   int i, j, pivot;
 
