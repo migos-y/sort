@@ -33,7 +33,7 @@ void quick_sort(int A[], int n){
 
 
   for(i = s = 1; i < j; i++){
-    if(A[s] < pivot){
+    if(A[i] < pivot){
       swap(A+i, A+s);
       s++;
     }
