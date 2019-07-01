@@ -42,8 +42,9 @@ int median(int A[], int n, int k){
     int pivot = median(B, bsize, bsize/2);//中央値をピボットとする
     
     for(i = 0;i < n;i++){
-      if(A[i] == pivot){swap(A, A+i);//中央値を先頭に持ってくる
-      break;
+      if(A[i] == pivot){
+        swap(A, A+i);//中央値を先頭に持ってくる
+        break;
       }
     }
 
@@ -66,9 +67,16 @@ int quick_select(int A[], int n, int k){
   int i, j, pivot;
 
 // 真ん中の要素をピボットとする
-  pivot = A[n/2];
+  /* pivot = A[n/2];
   A[n/2] = A[0];
-  A[0] = pivot;
+  A[0] = pivot;*/
+  pivot = median(A, N, N/2);
+  for(i = 0;i < n;i++){
+      if(A[i] == pivot){
+        swap(A, A+i);//中央値を先頭に持ってくる
+        break;
+      }
+    }
   for(i = j = 1; i < n; i++){
     if(A[i] <= pivot){
       swap(A+i, A+j);
