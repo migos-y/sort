@@ -4,7 +4,7 @@
 #define N 2999
 
 int A[N];
-
+int B[(N+4)/5];
 // *p と *q の値を入れ替える関数
 void swap(int *p, int *q){
   int tmp;
@@ -13,10 +13,10 @@ void swap(int *p, int *q){
   *q = tmp;
 }
 
-int midian(int A[], int k){
-  int n = sizeof(A);
-  int tmp;
+int median(int A[], int n, int k){
+  int i;
   if(n <= 5){
+    int tmp;
       for(int a = 0;a < n;a++){
         for(int b = 0;b < n-a-1;b++){
           if(A[b] >= A[b+1]){
@@ -26,11 +26,39 @@ int midian(int A[], int k){
           }
         }
       }
-      return A[k];
+      return A[k];//バブルソートでAの長さが5以下の時中央値を求める
+    }else{//長さが5より長い
+
+    int bsize = (n+4)/5;
+      for(i = 0;i < n/5;i++){
+        B[i] = median(A+i*5, 5, 2);//長さ5づつに分割して中央値を計算、代入
+      }
+
+    int c = n%5;
+    if(c != 0){
+      B[bsize-1] = median(A+n/5*5, c, c/2);//余りの分の計算
     }
 
-  }else{
-  int A2[(n+4)/5];
+    int pivot = median(B, bsize, bsize/2);//中央値をピボットとする
+    
+    for(i = 0;i < n;i++){
+      if(A[i] == pivot){swap(A, A+i);//中央値を先頭に持ってくる
+      break;
+      }
+    }
+
+
+    int j, s;
+    for(i = j = 1; i < n; i++){//2つの配列に分割する
+      if(A[i] <= pivot){
+        swap(A + i, A + j);
+        j++;
+      }
+    }
+
+    if(j-1 == k) return pivot;
+    else if(j-1 < k) median(A+j, n-j, k-j);
+    else median(A+1, j-1, k);
 
 }}
 
@@ -48,8 +76,8 @@ int quick_select(int A[], int n, int k){
     }
   }
 
-  if(j == k+1) return pivot;
-  else if(j < k+1) return quick_select(A+j, n-j, k-j);
+  if(j == k) return pivot;
+  else if(j < k) return quick_select(A+j, n-j, k-j-1);
   else return quick_select(A+1, j-1, k);
 }
 
